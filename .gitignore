@@ -69,3 +69,4 @@ npm-debug.log*
 ehthumbs.db
 Thumbs.db
 
+appsettings.local.json
