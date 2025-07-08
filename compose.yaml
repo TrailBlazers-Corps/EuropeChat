@@ -15,31 +15,6 @@
       timeout: 10s
       retries: 3
 
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "${JAEGER_UI_PORT}:16686"  # Jaeger UI
-      - "${JAEGER_COLLECTOR_PORT}:14268"  # Jaeger collector HTTP
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
-      - METRICS_STORAGE_TYPE=prometheus
-      - PROMETHEUS_SERVER_URL=http://prometheus:9090
-      - PROMETHEUS_QUERY_NORMALIZE_CALLS=true
-      - PROMETHEUS_QUERY_NORMALIZE_DURATION=true
-      - LOG_LEVEL=debug
-
-  otel-collector:
-    image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.128.0
-    command: [--config=/etc/otel-collector-config.yaml]
-    volumes:
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
-    ports:
-      - "4317:4317" # OTLP gRPC receiver
-      - "4318:4318" # OTLP HTTP receiver
-      - "8889:8889" # Prometheus metrics endpoint
-    depends_on:
-      - jaeger
-
   prometheus:
     image: prom/prometheus:latest
     volumes:
@@ -88,12 +63,9 @@
     depends_on:
       europechat:
         condition: service_started
-      otel-collector:
-        condition: service_started
     environment:
       - ASPNETCORE_URLS=http://+:8080
       - ApiBaseUrl=http://europechat:8080
-      - OTLP_ENDPOINT_URL=http://otel-collector:4317
       - ConnectionStrings__APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING:-}
 
 volumes:

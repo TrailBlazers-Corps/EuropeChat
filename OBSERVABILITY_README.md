@@ -9,9 +9,7 @@ External Traffic → EuropeChat.Proxy:5240 → EuropeChat.Api:5185 → Database
                    ↓
               OpenTelemetry Observability
               (Traces, Metrics, Logs)
-                   ↓
-              OTLP Collector → Jaeger (Traces)
-                   ↓            ↓
+                   
               Prometheus ← Metrics → Grafana
 ```
 
@@ -31,10 +29,8 @@ External Traffic → EuropeChat.Proxy:5240 → EuropeChat.Api:5185 → Database
 - **Note**: All OpenTelemetry instrumentation has been removed
 
 ### Observability Stack
-- **Jaeger**: Distributed tracing UI (port 16686)
 - **Prometheus**: Metrics collection (port 9090)
 - **Grafana**: Visualization and dashboards (port 3000)
-- **OTLP Collector**: OpenTelemetry data collection (ports 4317/4318)
 
 ## Usage
 
@@ -47,7 +43,6 @@ docker compose up -d
 - **Application**: http://localhost:5240 (through proxy)
 - **Grafana**: http://localhost:3000 (admin/admin)
 - **Prometheus**: http://localhost:9090
-- **Jaeger**: http://localhost:16686
 
 ### Endpoints
 - **Health Check**: `GET /health` (proxy only)
@@ -109,7 +104,6 @@ rate(greetings_count_total{status_code!~"2.."}[5m])
 
 ### Environment Variables
 - `APP_PORT`: Proxy port (default: from compose.yaml)
-- `OTLP_ENDPOINT_URL`: OpenTelemetry collector endpoint
 - `ApiBaseUrl`: Target API URL for proxying
 
 ### Development vs Production
@@ -140,8 +134,7 @@ activity?.SetTag("custom.data", value);
 
 ### Common Issues
 1. **Metrics not appearing**: Check Prometheus targets at http://localhost:9090/targets
-2. **Traces not visible**: Verify OTLP collector is running and endpoint is correct
-3. **Grafana not loading dashboards**: Check provisioning volume mounts
+2. **Grafana not loading dashboards**: Check provisioning volume mounts
 
 ### Logs
 ```bash

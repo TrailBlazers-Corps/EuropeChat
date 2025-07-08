@@ -148,7 +148,6 @@ The **EuropeChat Proxy - Comprehensive Dashboard** provides detailed monitoring 
 ## 🔗 **Related Services**
 
 - **Prometheus**: `http://localhost:9090` - Raw metrics and queries
-- **Jaeger**: `http://localhost:16686` - Distributed tracing
 - **API Health**: `http://localhost:5185` - Direct API access (for comparison)
 - **Proxy Health**: `http://localhost:8080/health` - Proxy health check
 
