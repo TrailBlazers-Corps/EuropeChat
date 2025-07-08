@@ -1,0 +1,6 @@
+@EuropeChat.Proxy_HostAddress = http://localhost:5240
+
+GET {{EuropeChat.Proxy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
